@@ -1,9 +1,9 @@
 === PMPro Reason for Cancelling ===
-Contributors: strangerstudios
-Tags: pmpro, membership, reason, cancell
+Contributors: strangerstudios, pbrocks
+Tags: pmpro, membership, reason, cancel
 Requires at least: 3.5
-Tested up to: 3.9.1
-Stable tag: .1.1
+Tested up to: 4.9.7
+Stable tag: .1.2
 
 Require members to provide a reason for leaving before they can cancel their memmbership.
 This reason will be added to the emails sent to both the user and administrator.
@@ -28,6 +28,9 @@ The reason will be added to the emails sent to both the user and administrator.
 Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-reason-for-cancelling/issues
 
 == Changelog ==
+= .1.2 =
+* Prepared for translation
+
 = .1.1 =
 * Added readme.txt
 
