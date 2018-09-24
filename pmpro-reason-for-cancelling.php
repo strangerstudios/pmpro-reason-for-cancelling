@@ -33,7 +33,11 @@ add_action( 'init', 'pmpror4c_init' );
 
 // add reason to cancel email
 function pmpror4c_pmpro_email_body( $body, $email ) {
-	$reason = sanitize_text_field( $_REQUEST['reason'] );
+	if( !empty( $_REQUEST['reason'] ) ) {
+		$reason = sanitize_text_field( $_REQUEST['reason'] );
+	} else {
+		$reason = __( 'N/A', 'pmpro-reason-for-cancelling' );
+	}
 
 	// replace in standard templates
 	if ( $email->template == 'cancel' || $email->template == 'cancel_admin' ) {
