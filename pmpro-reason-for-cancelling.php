@@ -10,15 +10,13 @@
  * Domain Path: /languages
  */
 
-// use our checkout template
-function pmpror4c_pmpro_pages_shortcode_cancel( $content ) {
-	ob_start();
-	include( plugin_dir_path( __FILE__ ) . 'templates/cancel.php' );
-	$temp_content = ob_get_contents();
-	ob_end_clean();
-	return $temp_content;
+// use our cancel template
+function pmpror4c_pages_custom_template_path( $templates, $page_name ) {		
+	$templates[] = plugin_dir_path(__FILE__) . 'templates/' . $page_name . '.php';	
+
+	return $templates;
 }
-add_filter( 'pmpro_pages_shortcode_cancel', 'pmpror4c_pmpro_pages_shortcode_cancel' );
+add_filter( 'pmpro_pages_custom_template_path', 'pmpror4c_pages_custom_template_path', 10, 2 );
 
 // make sure they enter a reason
 function pmpror4c_init() {
