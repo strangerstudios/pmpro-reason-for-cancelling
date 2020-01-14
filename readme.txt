@@ -1,17 +1,17 @@
 === PMPro Reason for Cancelling ===
-Contributors: strangerstudios, pbrocks
+Contributors: strangerstudios, pbrocks, dlparker1005
 Tags: pmpro, membership, reason, cancel
 Requires at least: 3.5
-Tested up to: 4.9.7
-Stable tag: .1.2
+Tested up to: 5.3
+Stable tag: .1.3
 
-Require members to provide a reason for leaving before they can cancel their memmbership.
+Require members to provide a reason for leaving before they can cancel their membership.
 This reason will be added to the emails sent to both the user and administrator.
 
 == Description ==
 
 Features:
-* Require members to provide a reason for leaving before they can cancel their memmbership.
+* Require members to provide a reason for leaving before they can cancel their membership.
 
 Simply activate the plugin and a new checkout page template will be used, requiring your users to enter a reason, before they can cancel their membership.
 The reason will be added to the emails sent to both the user and administrator.
@@ -28,6 +28,9 @@ The reason will be added to the emails sent to both the user and administrator.
 Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-reason-for-cancelling/issues
 
 == Changelog ==
+= .1.3 2020-01-14 =
+* BUG FIX: Fixed issue where users would not be prompted for the reason for cancelling
+
 = .1.2 =
 * Prepared for translation
 

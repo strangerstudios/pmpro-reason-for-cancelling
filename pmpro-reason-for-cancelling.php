@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: PMPro Reason For Cancelling
- * Plugin URI: https://www.paidmembershipspro.com/wp/pmpro-reason-for-cancelling/
+ * Plugin Name: Paid Memberships Pro - Reason For Cancelling Add On
+ * Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-reason-cancelling/
  * Description: Adds a field to specify a reason for cancelling to the cancel page.
- * Version: .1.2
- * Author: Stranger Studios
- * Author URI: https://www.strangerstudios.com
+ * Version: .1.3
+ * Author: Paid Memberships Pro
+ * Author URI: https://www.paidmembershipspro.com
  * Text Domain: pmpro-reason-for-cancelling
  * Domain Path: /languages
  */
