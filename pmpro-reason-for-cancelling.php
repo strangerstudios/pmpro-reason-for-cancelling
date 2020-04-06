@@ -38,7 +38,7 @@ function pmpror4c_save_reason_to_last_order( $level_id, $user_id, $cancel_level 
 		$order = new MemberOrder();
 		$order->getlastMemberOrder( $user_id, array("", "success") );
 
-		$order->notes .= "Reason for cancelling: " . $reason;
+		$order->notes .= __( 'Reason for cancelling:', 'pmpro-reason-for-cancelling' ) . ' ' . $reason;
 		$order->saveOrder();
 	} else {
 		return;
