@@ -1,8 +1,8 @@
 <?php
 /**
- * /Users/paul/Local Sites/pmp-email/app/public/wp-content/plugins/paid-memberships-pro/templates/cancel.php
+ * Overrides ../wp-content/plugins/paid-memberships-pro/templates/cancel.php
  */
-	global $pmpro_msg, $pmpro_msgt, $pmpro_confirm;
+global $pmpro_msg, $pmpro_msgt, $pmpro_confirm;
 
 if ( $pmpro_msg ) {
 ?>
