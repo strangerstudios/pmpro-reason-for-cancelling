@@ -33,7 +33,7 @@ add_action( 'init', 'pmpror4c_init' );
 function pmpror4c_save_reason_to_last_order( $level_id, $user_id, $cancel_level ) {
 
 	if ( ! empty( $_REQUEST['reason'] ) && $level_id === 0 ) {
-		$reason = sanitize_text_field( $_REQUEST['reason'] );
+		$reason = wp_unslash( sanitize_text_field( $_REQUEST['reason'] ) );
 
 		$order = new MemberOrder();
 		$order->getlastMemberOrder( $user_id, array("", "success") );
@@ -49,7 +49,7 @@ add_action( 'pmpro_after_change_membership_level', 'pmpror4c_save_reason_to_last
 // add reason to cancel email
 function pmpror4c_pmpro_email_body( $body, $email ) {
 	if( !empty( $_REQUEST['reason'] ) ) {
-		$reason = sanitize_text_field( $_REQUEST['reason'] );
+		$reason = wp_unslash( sanitize_text_field( $_REQUEST['reason'] ) );
 	} else {
 		$reason = __( 'N/A', 'pmpro-reason-for-cancelling' );
 	}
