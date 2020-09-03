@@ -33,15 +33,13 @@ add_action( 'init', 'pmpror4c_init' );
 function pmpror4c_save_reason_to_last_order( $level_id, $user_id, $cancel_level ) {
 
 	if ( ! empty( $_REQUEST['reason'] ) && $level_id === 0 ) {
-		$reason = sanitize_text_field( $_REQUEST['reason'] );
+		$reason = wp_unslash( sanitize_text_field( $_REQUEST['reason'] ) );
 
 		$order = new MemberOrder();
-		$order->getlastMemberOrder( $user_id, array("", "success") );
-
-		$order->notes .= __( 'Reason for cancelling:', 'pmpro-reason-for-cancelling' ) . ' ' . $reason;
-		$order->saveOrder();
-	} else {
-		return;
+		if ( $order->getlastMemberOrder( $user_id, array("", "success", "cancelled"), $cancel_level ) ) {
+			$order->notes .= __( 'Reason for cancelling:', 'pmpro-reason-for-cancelling' ) . ' ' . $reason;
+			$order->saveOrder();
+		}
 	}
 }
 add_action( 'pmpro_after_change_membership_level', 'pmpror4c_save_reason_to_last_order', 10, 3 );
@@ -49,7 +47,7 @@ add_action( 'pmpro_after_change_membership_level', 'pmpror4c_save_reason_to_last
 // add reason to cancel email
 function pmpror4c_pmpro_email_body( $body, $email ) {
 	if( !empty( $_REQUEST['reason'] ) ) {
-		$reason = sanitize_text_field( $_REQUEST['reason'] );
+		$reason = wp_unslash( sanitize_text_field( $_REQUEST['reason'] ) );
 	} else {
 		$reason = __( 'N/A', 'pmpro-reason-for-cancelling' );
 	}
