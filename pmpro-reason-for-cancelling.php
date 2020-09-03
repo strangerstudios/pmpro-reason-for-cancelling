@@ -36,12 +36,10 @@ function pmpror4c_save_reason_to_last_order( $level_id, $user_id, $cancel_level 
 		$reason = sanitize_text_field( $_REQUEST['reason'] );
 
 		$order = new MemberOrder();
-		$order->getlastMemberOrder( $user_id, array("", "success") );
-
-		$order->notes .= __( 'Reason for cancelling:', 'pmpro-reason-for-cancelling' ) . ' ' . $reason;
-		$order->saveOrder();
-	} else {
-		return;
+		if ( $order->getlastMemberOrder( $user_id, array("", "success", "cancelled"), $cancel_level ) ) {
+			$order->notes .= __( 'Reason for cancelling:', 'pmpro-reason-for-cancelling' ) . ' ' . $reason;
+			$order->saveOrder();
+		}
 	}
 }
 add_action( 'pmpro_after_change_membership_level', 'pmpror4c_save_reason_to_last_order', 10, 3 );
