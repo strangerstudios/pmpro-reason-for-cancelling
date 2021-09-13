@@ -2,8 +2,8 @@
 Contributors: strangerstudios, pbrocks, dlparker1005
 Tags: pmpro, membership, reason, cancel
 Requires at least: 3.5
-Tested up to: 5.5
-Stable tag: 0.2
+Tested up to: 5.8
+Stable tag: 0.2.1
 
 Require members to provide a reason for leaving before they can cancel their membership.
 This reason will be added to the emails sent to both the user and administrator.
@@ -28,6 +28,9 @@ The reason will be added to the emails sent to both the user and administrator.
 Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-reason-for-cancelling/issues
 
 == Changelog ==
+= 0.2.1 - 2021-09-13 =
+* BUG FIX/ENHANCEMENT: Now ensuring that `levelstocancel` URL parameter is set when cancelling a level.
+
 = 0.2 - 2020-09-03 =
 * ENHANCEMENT: Added MMPU compatibility.
 * ENHANCEMENT: Enabled translation/internationalization.
