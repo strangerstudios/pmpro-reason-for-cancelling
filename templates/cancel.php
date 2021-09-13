@@ -56,7 +56,7 @@ if ( isset( $_REQUEST['levelstocancel'] ) && $_REQUEST['levelstocancel'] !== 'al
 				<p>	
 					<input type="hidden" name="membership_cancel" value="1" />
 					<input type="hidden" name="confirm" value="1" />
-					<input type="submit" name="submit" value="<?php esc_html_e( 'Yes, cancel my account', 'pmpro-reason-for-cancelling' ); ?>" />
+					<input type="submit" name="submit" value="<?php esc_attr_e( 'Yes, cancel my account', 'pmpro-reason-for-cancelling' ); ?>" />
 					|
 					<a class="pmpro_nolink nolink" href="<?php echo pmpro_url( 'account' ); ?>"><?php esc_html_e( 'No, keep my account', 'pmpro-reason-for-cancelling' ); ?></a>
 				</p>
