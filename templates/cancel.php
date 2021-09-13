@@ -61,7 +61,7 @@ if ( isset( $_REQUEST['levelstocancel'] ) && $_REQUEST['levelstocancel'] !== 'al
 				<p>	
 					<input type="hidden" name="membership_cancel" value="1" />
 					<input type="hidden" name="confirm" value="1" />
-					<input type="submit" name="submit" value="<?php esc_html_e( 'Yes, cancel my account', 'pmpro-reason-for-cancelling' ); ?>" />
+					<input type="submit" name="submit" value="<?php esc_attr_e( 'Yes, cancel my account', 'pmpro-reason-for-cancelling' ); ?>" />
 					|
 					<a class="pmpro_nolink nolink" href="<?php echo pmpro_url( 'account' ); ?>"><?php esc_html_e( 'No, keep my account', 'pmpro-reason-for-cancelling' ); ?></a>
 				</p>
@@ -117,7 +117,7 @@ if ( isset( $_REQUEST['levelstocancel'] ) && $_REQUEST['levelstocancel'] !== 'al
 		else
 		{
 			?>
-			<p class="<?php echo pmpro_get_element_class( 'pmpro_cancel_return_home' ); ?>"><a href="<?php echo get_home_url()?>"><?php _e( 'Click here to go to the home page.', 'pmpro-reason-for-cancelling' );?></a></p>
+			<p class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_cancel_return_home' ) ); ?>"><a href="<?php echo esc_url( get_home_url() ); ?>"><?php esc_html_e( 'Click here to go to the home page.', 'pmpro-reason-for-cancelling' ); ?></a></p>
 			<?php
 		}
 	?>
