@@ -23,11 +23,11 @@ if ( isset( $_REQUEST['levelstocancel'] ) && $_REQUEST['levelstocancel'] !== 'al
 	$old_level_ids = false;
 }
 ?>
-<div id="pmpro_cancel" class="<?php echo pmpro_get_element_class( 'pmpro_cancel_wrap', 'pmpro_cancel' ); ?>">
+<div id="pmpro_cancel" class="<?php esc_attr_e( pmpro_get_element_class( 'pmpro_cancel_wrap', 'pmpro_cancel' ) ); ?>">
 	<?php
 		if ( $pmpro_msg ) {
 			?>
-			<div class="<?php echo pmpro_get_element_class( 'pmpro_message ' . $pmpro_msgt, $pmpro_msgt ); ?>"><?php echo $pmpro_msg?></div>
+			<div class="<?php esc_attr_e( pmpro_get_element_class( 'pmpro_message ' . $pmpro_msgt, $pmpro_msgt ) ); ?>"><?php esc_html_e( $pmpro_msg )?></div>
 			<?php
 		}
 	?>
@@ -39,12 +39,17 @@ if ( isset( $_REQUEST['levelstocancel'] ) && $_REQUEST['levelstocancel'] !== 'al
 				<?php
 				if ( ! is_array( $old_level_ids ) && $old_level_ids == "all" ) {
 					?>
-					<p><?php _e( 'Are you sure you want to cancel your membership?', 'pmpro-reason-for-cancelling' ); ?></p>
+					<p><?php esc_html_e( 'Are you sure you want to cancel your membership?', 'pmpro-reason-for-cancelling' ); ?></p>
 					<?php
 				} else {
 					$level_names = $wpdb->get_col( "SELECT name FROM $wpdb->pmpro_membership_levels WHERE id IN('" . implode( "','", $old_level_ids ) . "')" );
 					?>
-					<p><?php printf( _n( 'Are you sure you want to cancel your %s membership?', 'Are you sure you want to cancel your %s memberships?', count( $level_names ), 'pmpro-reason-for-cancelling' ), pmpro_implodeToEnglish( $level_names ) ); ?></p>
+					<p>
+					<?php
+						// translators: %s: The level name(s).
+						printf( esc_html( _n( 'Are you sure you want to cancel your %s membership?', 'Are you sure you want to cancel your %s memberships?', count( $level_names ), 'pmpro-reason-for-cancelling' ) ), esc_html( pmpro_implodeToEnglish( $level_names ) ) ); 
+					?>
+					</p>
 					<?php
 				}
 				?>
@@ -64,12 +69,12 @@ if ( isset( $_REQUEST['levelstocancel'] ) && $_REQUEST['levelstocancel'] !== 'al
 			} else {
 				if($current_user->membership_level->ID) {
 					?>
-					<h2><?php _e( "My Memberships", 'pmpro-reason-for-cancelling' );?></h2>
-					<table class="<?php echo pmpro_get_element_class( 'pmpro_table' ); ?>" width="100%" cellpadding="0" cellspacing="0" border="0">
+					<h2><?php esc_html_e( "My Memberships", 'pmpro-reason-for-cancelling' );?></h2>
+					<table class="<?php esc_attr_e( pmpro_get_element_class( 'pmpro_table' ) ); ?>" width="100%" cellpadding="0" cellspacing="0" border="0">
 						<thead>
 							<tr>
-								<th><?php _e( "Level", 'pmpro-reason-for-cancelling' );?></th>
-								<th><?php _e( "Expiration", 'pmpro-reason-for-cancelling' ); ?></th>
+								<th><?php esc_html_e( "Level", 'pmpro-reason-for-cancelling' );?></th>
+								<th><?php esc_html_e( "Expiration", 'pmpro-reason-for-cancelling' ); ?></th>
 								<th></th>
 							</tr>
 						</thead>
@@ -79,10 +84,10 @@ if ( isset( $_REQUEST['levelstocancel'] ) && $_REQUEST['levelstocancel'] !== 'al
 								foreach( $current_user->membership_levels as $level ) {
 								?>
 								<tr>
-									<td class="<?php echo pmpro_get_element_class( 'pmpro_cancel-membership-levelname' ); ?>">
-										<?php echo $level->name?>
+									<td class="<?php esc_attr_e( pmpro_get_element_class( 'pmpro_cancel-membership-levelname' ) ); ?>">
+										<?php esc_html_e( $level->name )?>
 									</td>
-									<td class="<?php echo pmpro_get_element_class( 'pmpro_cancel-membership-expiration' ); ?>">
+									<td class="<?php esc_attr_e( pmpro_get_element_class( 'pmpro_cancel-membership-expiration' ) ); ?>">
 									<?php
 										if($level->enddate) {
 											$expiration_text = date_i18n( get_option( 'date_format' ), $level->enddate );
@@ -90,11 +95,11 @@ if ( isset( $_REQUEST['levelstocancel'] ) && $_REQUEST['levelstocancel'] !== 'al
    											$expiration_text = "---";
 										}
        									 
-										echo apply_filters( 'pmpro_account_membership_expiration_text', $expiration_text, $level );
+										esc_html_e( apply_filters( 'pmpro_account_membership_expiration_text', $expiration_text, $level ) );
 									?>
 									</td>
-									<td class="<?php echo pmpro_get_element_class( 'pmpro_cancel-membership-cancel' ); ?>">
-										<a href="<?php echo pmpro_url( "cancel", "?levelstocancel=" . $level->id )?>"><?php _e( "Cancel", 'pmpro-reason-for-cancelling' );?></a>
+									<td class="<?php esc_attr_e( pmpro_get_element_class( 'pmpro_cancel-membership-cancel' ) ); ?>">
+										<a href="<?php echo esc_url( pmpro_url( "cancel", "?levelstocancel=" . $level->id ) )?>"><?php esc_html_e( "Cancel", 'pmpro-reason-for-cancelling' );?></a>
 									</td>
 								</tr>
 								<?php
@@ -102,8 +107,8 @@ if ( isset( $_REQUEST['levelstocancel'] ) && $_REQUEST['levelstocancel'] !== 'al
 							?>
 						</tbody>
 					</table>
-					<div class="<?php echo pmpro_get_element_class( 'pmpro_actions_nav' ); ?>">
-						<a href="<?php echo pmpro_url( "cancel", "?levelstocancel=all" ); ?>"><?php _e( "Cancel All Memberships", 'pmpro-reason-for-cancelling' );?></a>
+					<div class="<?php esc_attr_e( pmpro_get_element_class( 'pmpro_actions_nav' ) ); ?>">
+						<a href="<?php echo pmpro_url( "cancel", "?levelstocancel=all" ); ?>"><?php esc_html_e( "Cancel All Memberships", 'pmpro-reason-for-cancelling' );?></a>
 					</div>
 					<?php
 				}
