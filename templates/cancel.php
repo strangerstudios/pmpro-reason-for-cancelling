@@ -112,7 +112,7 @@ if ( isset( $_REQUEST['levelstocancel'] ) && $_REQUEST['levelstocancel'] !== 'al
 		else
 		{
 			?>
-			<p class="<?php echo pmpro_get_element_class( 'pmpro_cancel_return_home' ); ?>"><a href="<?php echo get_home_url()?>"><?php _e( 'Click here to go to the home page.', 'pmpro-reason-for-cancelling' );?></a></p>
+			<p class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_cancel_return_home' ) ); ?>"><a href="<?php echo esc_url( get_home_url() ); ?>"><?php esc_html_e( 'Click here to go to the home page.', 'pmpro-reason-for-cancelling' ); ?></a></p>
 			<?php
 		}
 	?>
