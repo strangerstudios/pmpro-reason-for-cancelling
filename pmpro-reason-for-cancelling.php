@@ -29,7 +29,11 @@ function pmpror4c_init() {
 }
 add_action( 'init', 'pmpror4c_init' );
 
-// Save the reason to the last order.
+/**
+ * When user cancels, save the Reason to the last order in order meta and order notes.
+ * For now, keep the function that also stores this in order notes.
+ * We may in the future include a migration script.
+ */
 function pmpror4c_save_reason_to_last_order( $level_id, $user_id, $cancel_level ) {
 
 	if ( ! empty( $_REQUEST['reason'] ) && $level_id === 0 ) {
@@ -37,12 +41,48 @@ function pmpror4c_save_reason_to_last_order( $level_id, $user_id, $cancel_level 
 
 		$order = new MemberOrder();
 		if ( $order->getlastMemberOrder( $user_id, array("", "success", "cancelled"), $cancel_level ) ) {
+			update_pmpro_membership_order_meta( $order->id, 'pmpro_reason_for_cancelling', $reason );
 			$order->notes .= __( 'Reason for cancelling:', 'pmpro-reason-for-cancelling' ) . ' ' . $reason;
 			$order->saveOrder();
 		}
 	}
 }
 add_action( 'pmpro_after_change_membership_level', 'pmpror4c_save_reason_to_last_order', 10, 3 );
+
+/**
+ * Show the Reason for Cancelling as a field on the Edit Order screen.
+ */
+function pmpror4c_after_order_settings( $order ) {
+	if ( empty( $order->id ) ) {
+		// This is a new order.
+		return;
+	}
+
+	// Get the Reason from Order Meta.
+	$reason = get_pmpro_membership_order_meta( $order->id, 'pmpro_reason_for_cancelling', true );
+	?>
+	<tr>
+		<th scope="row"><?php esc_html_e( 'Reason for Cancelling', 'pmpro-reason-for-cancelling' ); ?></th>
+		<td>
+			<textarea id="reason_for_cancelling" name="reason_for_cancelling" rows="5" cols="80"> <?php echo esc_textarea( $reason ); ?></textarea>
+		</td>
+	</tr>
+	<?php
+}
+add_action( 'pmpro_after_order_settings', 'pmpror4c_after_order_settings', 10, 1 );
+
+/**
+ * When an admin updates an order, save the Reason to order meta.
+ */
+function pmpror4c_updated_order( $order ) {
+	// Save extra fields.
+	if ( is_admin() && $_REQUEST['page'] === 'pmpro-orders' && ! empty( $_REQUEST['save'] ) ) {
+		if ( isset( $_REQUEST['reason_for_cancelling'] ) ) {
+			update_pmpro_membership_order_meta( $order->id, 'pmpro_reason_for_cancelling', wp_unslash( sanitize_text_field( $_REQUEST['reason_for_cancelling'] ) ) );
+		}
+	}
+}
+add_action( 'pmpro_updated_order', 'pmpror4c_updated_order' );
 
 // add reason to cancel email
 function pmpror4c_pmpro_email_body( $body, $email ) {
