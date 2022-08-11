@@ -65,6 +65,7 @@ if ( isset( $_REQUEST['levelstocancel'] ) && $_REQUEST['levelstocancel'] !== 'al
 					|
 					<a class="pmpro_nolink nolink" href="<?php echo pmpro_url( 'account' ); ?>"><?php esc_html_e( 'No, keep my account', 'pmpro-reason-for-cancelling' ); ?></a>
 				</p>
+				</form>
 				<?php
 			} else {
 				if($current_user->membership_level->ID) {
