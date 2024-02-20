@@ -8,7 +8,7 @@ function pmpror4c_pages_custom_template_path( $templates, $page_name ) {
 		return $templates;
 	}
 
-	$templates[] = plugin_dir_path(__FILE__) . 'templates/' . $page_name . '.php';	
+	$templates[] = plugin_dir_path(__FILE__) . '../templates/' . $page_name . '.php';	
 
 	return $templates;
 }
