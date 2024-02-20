@@ -35,7 +35,7 @@ if ( isset( $_REQUEST['levelstocancel'] ) && $_REQUEST['levelstocancel'] !== 'al
 		if ( ! $pmpro_confirm ) {
 			if ( $old_level_ids ) {
 				?>
-				<form action="" method="post">
+				<form id="pmpro_form" class="pmpro_form" action="" method="post">
 				<?php
 				if ( ! is_array( $old_level_ids ) && $old_level_ids == "all" ) {
 					?>
@@ -54,9 +54,10 @@ if ( isset( $_REQUEST['levelstocancel'] ) && $_REQUEST['levelstocancel'] !== 'al
 				}
 				?>
 				<p>
-				<?php esc_html_e( 'If so, please enter a reason for cancelling and click "Yes, cancel my account" below.', 'pmpro-reason-for-cancelling' ); ?><br />
-				<textarea name="reason"></textarea>
-				</p>
+				<?php esc_html_e( 'If so, please enter a reason for cancelling and click "Yes, cancel my account" below.', 'pmpro-reason-for-cancelling' ); ?></p>
+				<label for="reason"><?php esc_html_e( 'Reason for Cancelling', 'pmpro-reason-for-cancelling' ); ?></label>
+				<textarea id="reason" class="pmpro_required" name="reason"></textarea>
+				
 
 				<p>	
 					<input type="hidden" name="membership_cancel" value="1" />
