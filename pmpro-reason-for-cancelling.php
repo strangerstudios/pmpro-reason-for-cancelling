@@ -3,7 +3,7 @@
  * Plugin Name: Paid Memberships Pro - Reason For Cancelling Add On
  * Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-reason-cancelling/
  * Description: Adds a field to specify a reason for cancelling to the cancel page.
- * Version: 0.2.1
+ * Version: 1.0
  * Author: Paid Memberships Pro
  * Author URI: https://www.paidmembershipspro.com
  * Text Domain: pmpro-reason-for-cancelling
@@ -18,7 +18,7 @@
  *
  * Will only run on PMPro v3.0+.
  *
- * @since TBD
+ * @since 1.0
  */
 function pmpror4c_cancel_before_submit() {
 	?>
@@ -34,7 +34,7 @@ add_action( 'pmpro_cancel_before_submit', 'pmpror4c_cancel_before_submit' );
  *
  * Will only run on PMPro v3.0+.
  *
- * @since TBD
+ * @since 1.0
  *
  * @param bool $process_cancellation Whether the cancellation should be processed.
  * @return bool
@@ -58,7 +58,7 @@ add_filter( 'pmpro_cancel_should_process', 'pmpror4c_cancel_should_process' );
 /**
  * Add the reason to the cancellation confirmation email.
  *
- * @since TBD
+ * @since 1.0
  *
  * @param string $body The email body.
  */
@@ -91,7 +91,7 @@ add_action( 'pmpro_email_body', 'pmpror4c_email_body', 10, 2 );
  *
  * Will only run on PMPro v3.0+.
  *
- * @since TBD
+ * @since 1.0
  *
  * @param WP_User $user The user object that cancelled their membership.
  */
@@ -110,7 +110,7 @@ add_action( 'pmpro_cancel_processed', 'pmpror4c_cancel_processed', 10, 1 );
 /**
  * Add a panel to the Edit Member dashboard page.
  *
- * @since TBD
+ * @since 1.0
  *
  * @param array $panels Array of panels.
  * @return array
@@ -130,6 +130,11 @@ function pmpror4c_member_edit_panels_reasons( $panels ) {
 }
 add_filter( 'pmpro_member_edit_panels', 'pmpror4c_member_edit_panels_reasons' );
 
+/**
+ * Load the text domain for translation.
+ *
+ * @since 1.0
+ */
 function pmpror4c_load_textdomain() {
 	load_plugin_textdomain( 'pmpro-reason-for-cancelling', false, basename( dirname( __FILE__ ) ) . '/languages' );
 }

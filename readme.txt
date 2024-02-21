@@ -2,8 +2,8 @@
 Contributors: strangerstudios, pbrocks, dlparker1005
 Tags: pmpro, membership, reason, cancel
 Requires at least: 3.5
-Tested up to: 5.8
-Stable tag: 0.2.1
+Tested up to: 6.4
+Stable tag: 1.0
 
 Require members to provide a reason for leaving before they can cancel their membership.
 This reason will be added to the emails sent to both the user and administrator.
@@ -28,6 +28,13 @@ The reason will be added to the emails sent to both the user and administrator.
 Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-reason-for-cancelling/issues
 
 == Changelog ==
+= 1.0 - 2024-02-21 =
+* FEATURE: Added an Edit Member panel to view all of a user's cancellation reasons when using PMPro v3.0+. #29 (@dparker1005)
+* ENHANCEMENT: Cancellation reasons are now stored in user meta instead of order notes when using PMPro v3.0+ to simplify querying cancellation reasons. #29 (@dparker1005)
+* ENHANCEMENT: Adding a label to improve accessibility for the "reason for cancelling" field. #28 (@patric-boehner)
+* BUG FIX: Adding missing `</form>` tag to the cancel page template. #24 (@dparker1005)
+* REFACTOR: When using PMPro v3.0+, the plugin now using built-in hooks to add the "reason for cancelling" field instead of a custom template. #29 (@dparker1005)
+
 = 0.2.1 - 2021-09-13 =
 * BUG FIX/ENHANCEMENT: Now ensuring that `levelstocancel` URL parameter is set when cancelling a level.
 
