@@ -33,7 +33,7 @@ Please post it in the issues section of GitHub and we'll fix it as soon as we ca
 * ENHANCEMENT: Cancellation reasons are now stored in user meta instead of order notes when using PMPro v3.0+ to simplify querying cancellation reasons. #29 (@dparker1005)
 * ENHANCEMENT: Adding a label to improve accessibility for the "reason for cancelling" field. #28 (@patric-boehner)
 * BUG FIX: Adding missing `</form>` tag to the cancel page template. #24 (@dparker1005)
-* REFACTOR: When using PMPro v3.0+, the plugin now using built-in hooks to add the "reason for cancelling" field instead of a custom template. #29 (@dparker1005)
+* REFACTOR: When using PMPro v3.0+, the plugin now uses built-in hooks to add the "reason for cancelling" field instead of a custom template. #29 (@dparker1005)
 
 = 0.2.1 - 2021-09-13 =
 * BUG FIX/ENHANCEMENT: Now ensuring that `levelstocancel` URL parameter is set when cancelling a level.
