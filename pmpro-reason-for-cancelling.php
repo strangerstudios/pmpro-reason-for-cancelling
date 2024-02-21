@@ -10,50 +10,72 @@
  * Domain Path: /languages
  */
 
-// use our cancel template
-function pmpror4c_pages_custom_template_path( $templates, $page_name ) {		
-	$templates[] = plugin_dir_path(__FILE__) . 'templates/' . $page_name . '.php';	
+ // Load functionality for PMPro v2.x.
+ include_once( dirname( __FILE__ ) . '/includes/deprecated.php' );
 
-	return $templates;
+/**
+ * Add a reason field to the cancel page.
+ *
+ * Will only run on PMPro v3.0+.
+ *
+ * @since TBD
+ */
+function pmpror4c_cancel_before_submit() {
+	?>
+	<p><?php esc_html_e( 'If so, please enter a reason for cancelling and click "Yes, cancel my account" below.', 'pmpro-reason-for-cancelling' ); ?></p>
+	<label for="pmpro_cancel_reason"><?php esc_html_e( 'Reason for Cancelling', 'pmpro-reason-for-cancelling' ); ?></label>
+	<textarea id="pmpro_cancel_reason" class="pmpro_required" name="pmpro_cancel_reason"></textarea>
+	<?php
 }
-add_filter( 'pmpro_pages_custom_template_path', 'pmpror4c_pages_custom_template_path', 10, 2 );
+add_action( 'pmpro_cancel_before_submit', 'pmpror4c_cancel_before_submit' );
 
-// make sure they enter a reason
-function pmpror4c_init() {
-	if ( ! empty( $_REQUEST['confirm'] ) && ! empty( $_REQUEST['membership_cancel'] ) && empty( $_REQUEST['reason'] ) ) {
-		global $pmpro_msg, $pmpro_msgt;
-		$_REQUEST['confirm'] = null;
-		$pmpro_msg = __( 'Please enter a reason for cancelling.', 'pmpro-reason-for-cancelling' );
-		$pmpro_msgt = 'pmpro_error';
+/**
+ * Prevent cancellation if a reason is not provided.
+ *
+ * Will only run on PMPro v3.0+.
+ *
+ * @since TBD
+ *
+ * @param bool $process_cancellation Whether the cancellation should be processed.
+ * @return bool
+ */
+function pmpror4c_cancel_should_process( $process_cancellation ) {
+	// If we are already halting this cancellation, bail.
+	if ( empty( $process_cancellation ) ) {
+		return false;
 	}
-}
-add_action( 'init', 'pmpror4c_init' );
 
-// Save the reason to the last order.
-function pmpror4c_save_reason_to_last_order( $level_id, $user_id, $cancel_level ) {
-
-	if ( ! empty( $_REQUEST['reason'] ) && $level_id === 0 ) {
-		$reason = wp_unslash( sanitize_text_field( $_REQUEST['reason'] ) );
-
-		$order = new MemberOrder();
-		if ( $order->getlastMemberOrder( $user_id, array("", "success", "cancelled"), $cancel_level ) ) {
-			$order->notes .= __( 'Reason for cancelling:', 'pmpro-reason-for-cancelling' ) . ' ' . $reason;
-			$order->saveOrder();
-		}
+	// Make sure a reason is provided.
+	if ( empty( trim( $_REQUEST['pmpro_cancel_reason'] ) ) ) {
+		pmpro_setMessage( __( 'Please enter a reason for cancelling.', 'pmpro-reason-for-cancelling' ), 'pmpro_error' );
+		return false;
 	}
-}
-add_action( 'pmpro_after_change_membership_level', 'pmpror4c_save_reason_to_last_order', 10, 3 );
 
-// add reason to cancel email
-function pmpror4c_pmpro_email_body( $body, $email ) {
-	if( !empty( $_REQUEST['reason'] ) ) {
-		$reason = wp_unslash( sanitize_text_field( $_REQUEST['reason'] ) );
+	return true;
+}
+add_filter( 'pmpro_cancel_should_process', 'pmpror4c_cancel_should_process' );
+
+/**
+ * Add the reason to the cancellation confirmation email.
+ *
+ * @since TBD
+ *
+ * @param string $body The email body.
+ */
+function pmpror4c_email_body( $body, $email ) {
+	// Only use this function for PMPro v3.0+. Otherwise, use pmpror4c_pmpro_email_body().
+	if ( ! class_exists( 'PMPro_Subscription') ) {
+		return $body;
+	}
+
+	if ( ! empty( $_REQUEST['pmpro_cancel_reason'] ) ) {
+		$reason = trim( wp_unslash( sanitize_text_field( $_REQUEST['pmpro_cancel_reason'] ) ) );
 	} else {
 		$reason = __( 'N/A', 'pmpro-reason-for-cancelling' );
 	}
 
-	// replace in standard templates
-	if ( $email->template == 'cancel' || $email->template == 'cancel_admin' ) {
+	// Replace in standard templates.
+	if ( $email->template == 'cancel' || $email->template == 'cancel_admin' || $email->template == 'cancel_on_next_payment_date' || $email->template == 'cancel_on_next_payment_date_admin' ) {
 		$body = str_replace( 'has been cancelled.</p>', 'has been cancelled.</p><p>Reason: ' . $reason . '</p>', $body );
 	}
 
@@ -62,11 +84,53 @@ function pmpror4c_pmpro_email_body( $body, $email ) {
 
 	return $body;
 }
-add_action( 'pmpro_email_body', 'pmpror4c_pmpro_email_body', 10, 2 );
+add_action( 'pmpro_email_body', 'pmpror4c_email_body', 10, 2 );
 
-
-function pmpro_cancel_reason_load_textdomain() {
-	$plugin_rel_path = basename( dirname( __FILE__ ) ) . '/languages';
-	load_plugin_textdomain( 'pmpro-reason-for-cancelling', false, $plugin_rel_path );
+/**
+ * Save the reason to usermeta.
+ *
+ * Will only run on PMPro v3.0+.
+ *
+ * @since TBD
+ *
+ * @param WP_User $user The user object that cancelled their membership.
+ */
+function pmpror4c_cancel_processed( $user ) {
+	// Save the reason to usermeta.
+	if ( ! empty( $user->ID ) && ! empty( $_REQUEST['pmpro_cancel_reason'] ) ) {
+		add_user_meta( $user->ID, 'pmpror4c_reason', array(
+			'timestamp' => time(),
+			'levels'    => wp_unslash( sanitize_text_field( $_REQUEST['levelstocancel'] ) ),
+			'reason'    => trim( wp_unslash( sanitize_text_field( $_REQUEST['pmpro_cancel_reason'] ) ) ),
+		) );
+	}
 }
-add_action( 'plugins_loaded', 'pmpro_cancel_reason_load_textdomain' );
+add_action( 'pmpro_cancel_processed', 'pmpror4c_cancel_processed', 10, 1 );
+
+/**
+ * Add a panel to the Edit Member dashboard page.
+ *
+ * @since TBD
+ *
+ * @param array $panels Array of panels.
+ * @return array
+ */
+function pmpror4c_member_edit_panels_reasons( $panels ) {
+	// If the class doesn't exist and the abstract class does, require the class.
+	if ( ! class_exists( 'PMProup_Member_Edit_Panel' ) && class_exists( 'PMPro_Member_Edit_Panel' ) ) {
+		require_once( dirname( __FILE__ ) . '/classes/pmpror4c-class-member-edit-panel-reasons.php' );
+	}
+
+	// If the class exists, add a panel.
+	if ( class_exists( 'PMPror4c_Member_Edit_Panel_Reasons' ) ) {
+		$panels[] = new PMPror4c_Member_Edit_Panel_Reasons();
+	}
+
+	return $panels;
+}
+add_filter( 'pmpro_member_edit_panels', 'pmpror4c_member_edit_panels_reasons' );
+
+function pmpror4c_load_textdomain() {
+	load_plugin_textdomain( 'pmpro-reason-for-cancelling', false, basename( dirname( __FILE__ ) ) . '/languages' );
+}
+add_action( 'plugins_loaded', 'pmpror4c_load_textdomain' );
