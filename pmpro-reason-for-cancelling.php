@@ -117,7 +117,7 @@ add_action( 'pmpro_cancel_processed', 'pmpror4c_cancel_processed', 10, 1 );
  */
 function pmpror4c_member_edit_panels_reasons( $panels ) {
 	// If the class doesn't exist and the abstract class does, require the class.
-	if ( ! class_exists( 'PMProup_Member_Edit_Panel' ) && class_exists( 'PMPro_Member_Edit_Panel' ) ) {
+	if ( ! class_exists( 'PMPror4c_Member_Edit_Panel_Reasons' ) && class_exists( 'PMPro_Member_Edit_Panel' ) ) {
 		require_once( dirname( __FILE__ ) . '/classes/pmpror4c-class-member-edit-panel-reasons.php' );
 	}
 
