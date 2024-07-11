@@ -22,9 +22,17 @@
  */
 function pmpror4c_cancel_before_submit() {
 	?>
-	<p><?php esc_html_e( 'If so, please enter a reason for cancelling and click "Yes, cancel my account" below.', 'pmpro-reason-for-cancelling' ); ?></p>
-	<label for="pmpro_cancel_reason"><?php esc_html_e( 'Reason for Cancelling', 'pmpro-reason-for-cancelling' ); ?></label>
-	<textarea id="pmpro_cancel_reason" class="pmpro_required" name="pmpro_cancel_reason"></textarea>
+	<p><?php esc_html_e( 'If so, please enter a reason for cancelling and click the button to confirm cancellation below.', 'pmpro-reason-for-cancelling' ); ?></p>
+	<div class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_divider' ) ); ?>"></div>
+	<div id="pmpro_reason_for_cancelling" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_fields', 'pmpro_reason_for_cancelling' ) ); ?>">
+		<div id="pmpro_cancel_reason_div" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_field pmpro_form_field-textarea pmpro_form_field-required' ) ); ?>">
+			<label class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_label' ) ); ?>" for="pmpro_cancel_reason">
+				<?php esc_html_e( 'Reason for Cancelling', 'pmpro-reason-for-cancelling' ); ?>
+				<span class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_asterisk' ) ); ?>"> <abbr title="<?php esc_attr_e( 'Required Field' ,'pmpro-reason-for-cancelling' ); ?>">*</abbr></span>
+			</label>
+			<textarea id="pmpro_cancel_reason" name="pmpro_cancel_reason" class="<?php echo esc_attr( pmpro_get_element_class( 'pmpro_form_input pmpro_form_input-textarea pmpro_form_field-required' ) ); ?>"></textarea>
+		</div> <!-- end pmpro_cancel_reason_div -->
+	</div> <!-- end pmpro_reason_for_cancelling -->
 	<?php
 }
 add_action( 'pmpro_cancel_before_submit', 'pmpror4c_cancel_before_submit' );
