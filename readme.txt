@@ -3,7 +3,7 @@ Contributors: strangerstudios, pbrocks, dlparker1005
 Tags: pmpro, membership, reason, cancel
 Requires at least: 3.5
 Tested up to: 6.4
-Stable tag: 1.0
+Stable tag: 1.1
 
 Require members to provide a reason for leaving before they can cancel their membership.
 This reason will be added to the emails sent to both the user and administrator.
@@ -28,6 +28,10 @@ The reason will be added to the emails sent to both the user and administrator.
 Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-reason-for-cancelling/issues
 
 == Changelog ==
+= 1.1 - 2024-07-15 =
+* ENHANCEMENT: Added support for v3.1+ Paid Memberships Pro frontend changes.
+* BUG FIX: Fixed conflict with the Unlock Protocol Add On where the Edit Member panel for this Add On may not show. #30 (dparker1005)
+
 = 1.0 - 2024-02-21 =
 * FEATURE: Added an Edit Member panel to view all of a user's cancellation reasons when using PMPro v3.0+. #29 (@dparker1005)
 * ENHANCEMENT: Cancellation reasons are now stored in user meta instead of order notes when using PMPro v3.0+ to simplify querying cancellation reasons. #29 (@dparker1005)
