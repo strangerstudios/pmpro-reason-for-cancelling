@@ -28,16 +28,23 @@ class PMPror4c_Member_Edit_Panel_Reasons extends PMPro_Member_Edit_Panel {
 		}
 
 		// Normalize legacy string entries to array format.
-		$reasons = array_map( function( $reason ) {
-			if ( ! is_array( $reason ) ) {
-				return array(
-					'timestamp' => 0,
-					'levels'    => '',
-					'reason'    => $reason,
+		$reasons = array_map(
+			function( $reason ) {
+				if ( ! is_array( $reason ) ) {
+					$reason = array( 'reason' => $reason );
+				}
+				// Merge with defaults to ensure all keys exist.
+				return wp_parse_args(
+					$reason,
+					array(
+						'timestamp' => 0,
+						'levels'    => '',
+						'reason'    => '',
+					)
 				);
-			}
-			return $reason;
-		}, $reasons );
+			},
+			$reasons
+		);
 
 		// Order reasons by timestamp in descending order.
 		usort( $reasons, function( $a, $b ) {
