@@ -3,7 +3,7 @@ Contributors: strangerstudios, pbrocks, dlparker1005
 Tags: pmpro, membership, reason, cancel
 Requires at least: 3.5
 Tested up to: 6.9
-Stable tag: 1.2
+Stable tag: 1.2.1
 
 Require members to provide a reason for leaving before they can cancel their membership.
 This reason will be added to the emails sent to both the user and administrator.
@@ -28,6 +28,10 @@ The reason will be added to the emails sent to both the user and administrator.
 Please post it in the issues section of GitHub and we'll fix it as soon as we can. Thanks for helping. https://github.com/strangerstudios/pmpro-reason-for-cancelling/issues
 
 == Changelog ==
+= 1.2.1 - 2026-05-05 =
+* ENHANCEMENT: The Edit Member "Cancellation Reasons" panel now shows an em-dash for missing dates or levels and a `[deleted level #N]` placeholder when a referenced level no longer exists. #40 (@andrewlimaza)
+* BUG FIX: Fixed PHP errors and incorrect translation handling on the Edit Member "Cancellation Reasons" panel when a user's stored cancellation reason was in the older string format instead of an array. #40 (@andrewlimaza)
+
 = 1.2 - 2026-03-13 =
 * ENHANCEMENT: Changed "N/A" to "System Cancelled" to provide a clearer reason for cancellation when the member is cancelled by the system instead of the user.
 * ENHANCEMENT: Adjusted reason for cancelling wording to be more user-friendly and clear.
