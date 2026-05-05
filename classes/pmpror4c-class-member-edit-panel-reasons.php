@@ -79,6 +79,9 @@ class PMPror4c_Member_Edit_Panel_Reasons extends PMPro_Member_Edit_Panel {
 									$level = pmpro_getLevel( $level_id );
 									if ( ! empty( $level ) ) {
 										$level_names[] = $level->name;
+									} else {
+										/* translators: %d is the deleted level ID. */
+										$level_names[] = sprintf( __( '[deleted level #%d]', 'pmpro-reason-for-cancelling' ), (int) $level_id );
 									}
 								}
 								echo esc_html( implode( ', ', $level_names ) );
