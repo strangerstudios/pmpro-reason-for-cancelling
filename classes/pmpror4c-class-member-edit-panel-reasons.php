@@ -27,6 +27,25 @@ class PMPror4c_Member_Edit_Panel_Reasons extends PMPro_Member_Edit_Panel {
 			return;
 		}
 
+		// Normalize legacy string entries to array format.
+		$reasons = array_map(
+			function( $reason ) {
+				if ( ! is_array( $reason ) ) {
+					$reason = array( 'reason' => $reason );
+				}
+				// Merge with defaults to ensure all keys exist.
+				return wp_parse_args(
+					$reason,
+					array(
+						'timestamp' => 0,
+						'levels'    => '',
+						'reason'    => '',
+					)
+				);
+			},
+			$reasons
+		);
+
 		// Order reasons by timestamp in descending order.
 		usort( $reasons, function( $a, $b ) {
 			return $b['timestamp'] - $a['timestamp'];
@@ -47,22 +66,27 @@ class PMPror4c_Member_Edit_Panel_Reasons extends PMPro_Member_Edit_Panel {
 				foreach ( $reasons as $reason ) {
 					?>
 					<tr>
-						<td><?php echo esc_html( date_i18n( get_option( 'date_format' ), $reason['timestamp'] ) ); ?></td>
+						<td><?php echo $reason['timestamp'] ? esc_html( date_i18n( get_option( 'date_format' ), $reason['timestamp'] ) ) : '&mdash;'; ?></td>
 						<td>
 							<?php
 							// $reason['levels'] will be 'all' or a string of level IDs separated by '+'.
 							if ( 'all' === $reason['levels'] ) {
 								esc_html_e( 'All Levels', 'pmpro-reason-for-cancelling' );
-							} else {
+							} elseif ( ! empty( $reason['levels'] ) ) {
 								$level_ids = explode( '+', $reason['levels'] );
 								$level_names = array();
 								foreach ( $level_ids as $level_id ) {
 									$level = pmpro_getLevel( $level_id );
 									if ( ! empty( $level ) ) {
 										$level_names[] = $level->name;
+									} else {
+										/* translators: %d is the deleted level ID. */
+										$level_names[] = sprintf( __( '[deleted level #%d]', 'pmpro-reason-for-cancelling' ), (int) $level_id );
 									}
 								}
-								esc_html_e( implode( ', ', $level_names ) );
+								echo esc_html( implode( ', ', $level_names ) );
+							} else {
+								echo '&mdash;';
 							}
 							?>
 						</td>
