@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Paid Memberships Pro - Reason For Cancelling Add On plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Paid Memberships Pro - Reason For Cancelling Add On 1.2\n"
+"Project-Id-Version: Paid Memberships Pro - Reason For Cancelling Add On 1.2.1\n"
 "Report-Msgid-Bugs-To: info@paidmembershipspro.com\n"
 "Last-Translator: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "Language-Team: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-03-13T12:41:54+00:00\n"
+"POT-Creation-Date: 2026-05-05T13:41:02+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: pmpro-reason-for-cancelling\n"
@@ -47,20 +47,26 @@ msgstr ""
 msgid "This user has not submitted any reasons for cancelling."
 msgstr ""
 
-#: classes/pmpror4c-class-member-edit-panel-reasons.php:40
+#: classes/pmpror4c-class-member-edit-panel-reasons.php:59
 msgid "Date"
 msgstr ""
 
-#: classes/pmpror4c-class-member-edit-panel-reasons.php:41
+#: classes/pmpror4c-class-member-edit-panel-reasons.php:60
 msgid "Cancelled Level(s)"
 msgstr ""
 
-#: classes/pmpror4c-class-member-edit-panel-reasons.php:42
+#: classes/pmpror4c-class-member-edit-panel-reasons.php:61
 msgid "Reason"
 msgstr ""
 
-#: classes/pmpror4c-class-member-edit-panel-reasons.php:55
+#: classes/pmpror4c-class-member-edit-panel-reasons.php:74
 msgid "All Levels"
+msgstr ""
+
+#. translators: %d is the deleted level ID.
+#: classes/pmpror4c-class-member-edit-panel-reasons.php:84
+#, php-format
+msgid "[deleted level #%d]"
 msgstr ""
 
 #: pmpro-reason-for-cancelling.php:22
