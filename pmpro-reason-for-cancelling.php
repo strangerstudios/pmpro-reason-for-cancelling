@@ -10,6 +10,10 @@
  * Domain Path: /languages
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Add a reason field to the cancel page.
  *
@@ -52,8 +56,9 @@ function pmpror4c_cancel_should_process( $process_cancellation ) {
 
 	// Make sure a reason is provided.
 	$reason = '';
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified in PMPro core preheaders/cancel.php before pmpro_cancel_should_process runs.
 	if ( isset( $_REQUEST['pmpro_cancel_reason'] ) ) {
-		$reason = trim( wp_unslash( sanitize_text_field( $_REQUEST['pmpro_cancel_reason'] ) ) );
+		$reason = trim( sanitize_text_field( wp_unslash( $_REQUEST['pmpro_cancel_reason'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified in PMPro core preheaders/cancel.php.
 	}
 	if ( empty( $reason ) ) {
 		pmpro_setMessage( __( 'Please tell us what made you cancel.', 'pmpro-reason-for-cancelling' ), 'pmpro_error' );
@@ -77,11 +82,13 @@ function pmpror4c_email_body( $body, $email ) {
 		return $body;
 	}
 
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Read-only: only used to build the email body. The cancel request's nonce is verified in PMPro core preheaders/cancel.php.
 	if ( ! empty( $_REQUEST['pmpro_cancel_reason'] ) ) {
-		$reason = trim( wp_unslash( sanitize_text_field( $_REQUEST['pmpro_cancel_reason'] ) ) );
+		$reason = trim( sanitize_text_field( wp_unslash( $_REQUEST['pmpro_cancel_reason'] ) ) );
 	} else {
 		$reason = __( 'System Cancelled', 'pmpro-reason-for-cancelling' );
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 	// Replace in standard templates.
 	if ( $email->template == 'cancel' || $email->template == 'cancel_admin' || $email->template == 'cancel_on_next_payment_date' || $email->template == 'cancel_on_next_payment_date_admin' ) {
@@ -106,13 +113,17 @@ add_action( 'pmpro_email_body', 'pmpror4c_email_body', 10, 2 );
  */
 function pmpror4c_cancel_processed( $user ) {
 	// Save the reason to usermeta.
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Nonce verified in PMPro core preheaders/cancel.php before pmpro_cancel_processed runs.
+	// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- add_user_meta() expects slashed data and unslashes it itself.
 	if ( ! empty( $user->ID ) && ! empty( $_REQUEST['pmpro_cancel_reason'] ) ) {
 		add_user_meta( $user->ID, 'pmpror4c_reason', array(
 			'timestamp' => time(),
-			'levels'    => wp_unslash( sanitize_text_field( $_REQUEST['levelstocancel'] ) ),
-			'reason'    => trim( wp_unslash( sanitize_text_field( $_REQUEST['pmpro_cancel_reason'] ) ) ),
+			'levels'    => isset( $_REQUEST['levelstocancel'] ) ? sanitize_text_field( $_REQUEST['levelstocancel'] ) : '',
+			'reason'    => trim( sanitize_text_field( $_REQUEST['pmpro_cancel_reason'] ) ),
 		) );
 	}
+	// phpcs:enable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended
 }
 add_action( 'pmpro_cancel_processed', 'pmpror4c_cancel_processed', 10, 1 );
 
